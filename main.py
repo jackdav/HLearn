@@ -21,9 +21,13 @@ def run():
 
     cd = CandidateDictionary(5)
     cd.generate_candidates(X_train)
+
+    print(cd.set["6"].set)
+
     d_tree = DecisionTreeClassifier(features_idx=np.arange(1, X_train.shape[1]),
                                     max_depth=20, num_classes=2, candidate_dictionary=cd, candidate_agreement_flag=True)
     d_tree.fit(X_train, Y_train)
+    d_tree.print_tree()
     print("Accuracy for novel solution: {}".format(d_tree.accuracy_score(X_test, Y_test)))
 
     end = time.time()
@@ -31,12 +35,15 @@ def run():
     # total time taken
     print("Runtime for novel solution: {}".format(end - begin))
 
-    '''begin = time.time()
+    # This is for if you want to not use our solution
+
+    begin = time.time()
 
     d_tree2 = DecisionTreeClassifier(features_idx=np.arange(1, X_train.shape[1]),
-                                    max_depth=20, num_classes=2, candidate_dictionary=cd, candidate_agreement_flag=False)
-    d_tree2.fit(X_train, Y_train)
+                                    max_depth=3, num_classes=2, candidate_dictionary=cd, candidate_agreement_flag=False)
 
+    d_tree2.fit(X_train, Y_train)
+    d_tree2.print_tree()
     print(d_tree2.root.feature)
 
     print("Accuracy for basic solution: {}".format(d_tree.accuracy_score(X_test, Y_test)))
@@ -44,7 +51,7 @@ def run():
     end = time.time()
 
     # total time taken
-    print("Runtime for basic solution: {}".format(end - begin))'''
+    print("Runtime for basic solution: {}".format(end - begin))
 
 
     return 0

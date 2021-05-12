@@ -1,6 +1,6 @@
 import numpy as np
 
-def load_data_split(fn="data.csv", dirname="./data/"):
+def load_data_split(fn="data", dirname="./data/"):
     X = np.loadtxt(dirname+fn+"-x.csv", delimiter=',', dtype='str', encoding='utf-8-sig')
     Y = np.loadtxt(dirname+fn+"-y.csv", delimiter=',', encoding='utf-8-sig')
     X_train = X[:int(X.shape[0] * 0.8)]

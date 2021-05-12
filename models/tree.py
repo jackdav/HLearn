@@ -28,6 +28,17 @@ class DecisionTreeClassifier:
         preds = [self._predict(example) for example in X]
         return preds
 
+    def print_tree(self):
+        q = [self.root]
+        while q:
+            niq = q[0]
+            q.pop(0)
+            if niq.left_tree is not None:
+                q.append(niq.left_tree)
+            if niq.right_tree is not None:
+                q.append(niq.right_tree)
+            print("Feature: {} | Split: {} ||".format(niq.feature, niq.split))
+
     # prediction for a given example
     # traverse tree by following splits at nodes
     def _predict(self, example):
@@ -75,7 +86,6 @@ class DecisionTreeClassifier:
                     # get the gain and the data on each side of the split
                     # >= split goes on right, < goes on left
                     gain, left_X, right_X, left_y, right_y = self.check_split(X, y, feature, split)
-                    print(gain)
                     # if we have a better gain, use this split and keep track of data
                     if gain > best_gain:
                         best_gain = gain
