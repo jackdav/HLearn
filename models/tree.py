@@ -11,12 +11,14 @@ class Node:
 
 class DecisionTreeClassifier:
 
-    def __init__(self, max_depth=None, features_idx=None, num_classes=2, candidate_dictionary=None, candidate_agreement_flag=False):
+    def __init__(self, max_depth=None, features_idx=None, num_classes=2, candidate_dictionary=None,
+                 candidate_agreement_flag=False, candidate_agreement_pctg=1.0):
         self.features_idx = features_idx
         self.num_classes = num_classes
         self.max_depth = max_depth
         self.cd = candidate_dictionary
         self.candidate_agreement_flag = candidate_agreement_flag
+        self.candidate_agreement_pctg = candidate_agreement_pctg
 
     # take in features X and labels y
     # build a tree
@@ -117,22 +119,20 @@ class DecisionTreeClassifier:
         right_y = y[right_idx]
         # calculate gini impurity and gain for y, left_y, right_y
         if self.candidate_agreement_flag:
-            agreement_flag = True
+            agreement_count = len(y)
 
             for i in left_idx[0]:
                 for j in self.cd.set[str(i + 1)].set:
                     if j[feature] < split:
-                        agreement_flag = False
-                        break
+                        agreement_count -= 1
 
-            if agreement_flag:
-                for i in right_idx[0]:
-                    for j in self.cd.set[str(i + 1)].set:
-                        if j[feature] >= split:
-                            agreement_flag = False
-                            break
+            for i in right_idx[0]:
+                for j in self.cd.set[str(i + 1)].set:
+                    if j[feature] >= split:
+                        agreement_count -= 1
 
-            if agreement_flag:
+            pctg = agreement_count / len(y)
+            if pctg >= self.candidate_agreement_pctg:
                 gain = self.calculate_gini_gain(y, left_y, right_y)
                 return gain, left_X, right_X, left_y, right_y
             else:
