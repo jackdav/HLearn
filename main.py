@@ -41,7 +41,7 @@ def run():
     begin = time.time()
 
     d_tree2 = DecisionTreeClassifier(features_idx=np.arange(1, X_train.shape[1]),
-                                    max_depth=3, num_classes=2, candidate_dictionary=cd, candidate_agreement_flag=False)
+                                    max_depth=3, num_classes=2, candidate_dictionary=cd, hlearn=False)
 
     d_tree2.fit(X_train, Y_train)
     d_tree2.print_tree()
