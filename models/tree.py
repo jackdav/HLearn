@@ -12,12 +12,12 @@ class Node:
 class DecisionTreeClassifier:
 
     def __init__(self, max_depth=None, features_idx=None, num_classes=2, candidate_dictionary=None,
-                 candidate_agreement_flag=False, candidate_agreement_pctg=1.0):
+                 hlearn=False, candidate_agreement_pctg=1.0):
         self.features_idx = features_idx
         self.num_classes = num_classes
         self.max_depth = max_depth
         self.cd = candidate_dictionary
-        self.candidate_agreement_flag = candidate_agreement_flag
+        self.hlearn = hlearn
         self.candidate_agreement_pctg = candidate_agreement_pctg
 
     # take in features X and labels y
@@ -118,7 +118,7 @@ class DecisionTreeClassifier:
         left_y = y[left_idx]
         right_y = y[right_idx]
         # calculate gini impurity and gain for y, left_y, right_y
-        if self.candidate_agreement_flag:
+        if self.hlearn:
             agreement_count = len(y)
 
             for i in left_idx[0]:

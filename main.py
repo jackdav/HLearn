@@ -26,7 +26,7 @@ def run():
 
     d_tree = DecisionTreeClassifier(features_idx=np.arange(1, X_train.shape[1]),
                                     max_depth=20, num_classes=2, candidate_dictionary=cd,
-                                    candidate_agreement_flag=True, candidate_agreement_pctg=0.75)
+                                    hlearn=True, candidate_agreement_pctg=0.75)
     d_tree.fit(X_train, Y_train)
     d_tree.print_tree()
     print("Accuracy for novel solution: {}".format(d_tree.accuracy_score(X_test, Y_test)))
